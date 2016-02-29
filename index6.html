@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis text {
+  font: 10px arial;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: orange;
+  stroke-width:5;
+  shape-rendering: crispEdges;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var duration = 2500,
+    delay = 500;
+
+var width = 960,
+    height = 500;
+
+var x = d3.time.scale()
+    .domain([new Date(2015, 0, 2), new Date(2015, 1, 1)])
+    .range([0, width]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickSize(15, 0)
+    .tickFormat(d3.time.format("%m/%d"));
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var g = svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0," + height / 2 + ")")
+    .call(xAxis);
+
+setInterval(update, duration + delay);
+
+function update() {
+  x.domain([new Date(2010, 0, 2), new Date(2010, 0, Math.floor(Math.random() * 21) + 10)]);
+
+  g.transition()
+      .duration(duration)
+      .call(xAxis);
+}
+
+</script>
